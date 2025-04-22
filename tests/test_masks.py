@@ -51,9 +51,7 @@ def test_edge_cases():
 def test_input_types():
     """Тест обработки разных типов ввода (если Union[str] предполагает другие типы)"""
     # Число вместо строки (если функция должна это обрабатывать)
-    with pytest.raises(AttributeError):
-        get_mask_card_number(1234567890123456)  # Передали int
-
+    assert get_mask_card_number(1234567890123456) == "1234 56** **** 3456"
 
 
 @pytest.mark.parametrize("account_number, expected", [
