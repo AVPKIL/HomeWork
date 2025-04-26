@@ -1,3 +1,5 @@
+from typing import Iterator, Dict, Any, List
+
 import pytest
 
 from src.processing import filter_by_state, sort_by_date
@@ -57,7 +59,7 @@ from src.processing import filter_by_state, sort_by_date
         ),
     ],
 )
-def test_filter_by_state(input_data, state: str, expected_ids) -> None:
+def test_filter_by_state(input_data: list[dict[str, str | int] | dict[str, str | int] | dict[str, str | int]] | list[dict[str, str | int] | dict[str, str | int]] | list[dict[str, str | int] | dict[str, str | int]] | list | list[dict[str, str | int] | dict[str, str | int]] | list[dict[str, str | int] | dict[str, str | int]], state: str, expected_ids: list[int] | list) -> None:
     """Параметризованный тест для различных сценариев фильтрации"""
     if state is None:
         result = filter_by_state(input_data)
@@ -86,7 +88,7 @@ INVALID_DATES = [
 ]  # Текстовый формат
 
 
-def test_sort_valid_dates():
+def test_sort_valid_dates() -> None:
     """Тесты для корректных дат"""
     # По убыванию (reverse=True)
     assert sort_by_date(VALID_DATE, True) == [
@@ -106,7 +108,7 @@ def test_sort_valid_dates():
 
 
 # Тесты для одинаковых дат
-def test_duplicate_dates():
+def test_duplicate_dates() -> None:
     """Тестирование сортировки при одинаковых датах"""
     result = sort_by_date(DUPLICATE_DATES, reverse=True) == [
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
@@ -117,7 +119,7 @@ def test_duplicate_dates():
 
 
 # Тесты для нестандартных форматов
-def test_no_correct_dates():
+def test_no_correct_dates() -> None:
     """Тестирование сортировки при одинаковых датах"""
     result = sort_by_date(INVALID_DATES, reverse=True) == [
         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},

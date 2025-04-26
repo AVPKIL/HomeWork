@@ -2,12 +2,12 @@ import pytest
 
 
 @pytest.fixture
-def error_number():
+def error_number() -> str:
     return "Номер карты должен состоять из 16 цифр"
 
 
 @pytest.fixture
-def invalid_dates():
+def invalid_dates() -> list[str]:
     """Фикстура возвращает список невалидных строк с датами"""
     return [
         "2023-04",  # Неполная дата
@@ -19,7 +19,7 @@ def invalid_dates():
 
 
 @pytest.fixture
-def sample_transactions():
+def sample_transactions() -> list[dict[str, str | int] | dict[str, str | int] | dict[str, str | int] | dict[str, str | int] | dict[str, str | int]]:
     return [
         {"id": 1, "state": "EXECUTED", "amount": "100"},
         {"id": 2, "state": "PENDING", "amount": "200"},
@@ -30,7 +30,7 @@ def sample_transactions():
 
 
 @pytest.fixture
-def sample_date():
+def sample_date() -> list[dict[str, str | int] | dict[str, str | int] | dict[str, str | int] | dict[str, str | int]]:
     return [
         {"id": 1, "date": "2023-04-15T12:30:45"},
         {"id": 2, "date": "2022-12-31T23:59:59"},

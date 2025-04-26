@@ -20,7 +20,6 @@ from src.widget import mask_account_card, get_date
         ("Карта 9999999999999999", "Карта 9999 99** **** 9999"),
     ],
 )
-
 def test_card_masking(input_data: str, expected: str) -> None:
     """Тестирование маскирования номеров карт"""
 

@@ -8,51 +8,33 @@ transactions = [
         "id": 939719570,
         "state": "EXECUTED",
         "date": "2018-06-30T02:08:58.425572",
-        "operationAmount": {
-            "amount": "9824.07",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
+        "operationAmount": {"amount": "9824.07", "currency": {"name": "USD", "code": "USD"}},
         "description": "Перевод организации",
         "from": "Счет 75106830613657916952",
-        "to": "Счет 11776614605963066702"
+        "to": "Счет 11776614605963066702",
     },
     {
         "id": 142264268,
         "state": "EXECUTED",
         "date": "2019-04-04T23:20:05.206878",
-        "operationAmount": {
-            "amount": "79114.93",
-            "currency": {
-                "name": "USD",
-                "code": "USD"
-            }
-        },
+        "operationAmount": {"amount": "79114.93", "currency": {"name": "USD", "code": "USD"}},
         "description": "Перевод со счета на счет",
         "from": "Счет 19708645243227258542",
-        "to": "Счет 75651667383060284188"
+        "to": "Счет 75651667383060284188",
     },
     {
         "id": 873106923,
         "state": "EXECUTED",
         "date": "2019-03-23T01:09:46.296404",
-        "operationAmount": {
-            "amount": "43318.34",
-            "currency": {
-                "name": "рубли",
-                "code": "RUB"
-            }
-        },
+        "operationAmount": {"amount": "43318.34", "currency": {"name": "рубли", "code": "RUB"}},
         "description": "Перевод со счета на счет",
         "from": "Счет 44812258784861134719",
-        "to": "Счет 74489636417521191160"
-    }
+        "to": "Счет 74489636417521191160",
+    },
 ]
 
 
-def test_filter_by_currency():
+def test_filter_by_currency() -> None:
     # Тест на корректную фильтрацию
     usd_transactions = filter_by_currency(transactions, "USD")
     assert next(usd_transactions)["id"] == 939719570
@@ -72,7 +54,7 @@ def test_filter_by_currency():
         next(eur_transactions)
 
 
-def test_invalid_transactions():
+def test_invalid_transactions() -> None:
     # Тест с некорректными данными транзакций
     invalid_transactions = [
         {"id": 1, "operationAmount": {"currency": {"code": "USD"}}},  # Корректная
@@ -90,8 +72,7 @@ def test_invalid_transactions():
         next(usd_transactions)
 
 
-
-def test_transaction_descriptions():
+def test_transaction_descriptions() -> None:
     # Создаем тестовые данные
     test_transactions = [
         {"description": "Перевод организации"},
@@ -100,7 +81,7 @@ def test_transaction_descriptions():
         {"description": "Перевод с карты на карту"},
         None,  # None вместо транзакции
         {"description": "Оплата услуг"},
-        {"description": "Перевод по СБП"}
+        {"description": "Перевод по СБП"},
     ]
 
     # Получаем генератор
@@ -118,21 +99,21 @@ def test_transaction_descriptions():
         next(desc_gen)
 
 
-def test_empty_transactions():
+def test_empty_transactions() -> None:
     # Тест с пустым списком транзакций
     empty_gen = transaction_descriptions([])
     with pytest.raises(StopIteration):
         next(empty_gen)
 
 
-def test_invalid_transactions_desc():
+def test_invalid_transactions_desc() -> None:
     # Тест с некорректными данными
     invalid_transactions = [
         {"id": 1},  # Нет описания
         None,
         {"description": "Valid description"},
         12345,  # Не словарь
-        {"desc": "Неправильный ключ"}
+        {"desc": "Неправильный ключ"},
     ]
 
     desc_gen = transaction_descriptions(invalid_transactions)
@@ -141,7 +122,7 @@ def test_invalid_transactions_desc():
         next(desc_gen)
 
 
-def test_card_number_generator_basic():
+def test_card_number_generator_basic() -> None:
     """Тест базового функционала"""
     generator = card_number_generator(1, 3)
     assert next(generator) == "0000 0000 0000 0001"
@@ -151,7 +132,8 @@ def test_card_number_generator_basic():
     with pytest.raises(StopIteration):
         next(generator)
 
-def test_card_number_generator_edge_cases():
+
+def test_card_number_generator_edge_cases() -> None:
     """Тест граничных случаев"""
     # Минимальное значение
     generator = card_number_generator(1, 1)
@@ -161,7 +143,8 @@ def test_card_number_generator_edge_cases():
     generator = card_number_generator(9999999999999999, 9999999999999999)
     assert next(generator) == "9999 9999 9999 9999"
 
-def test_card_number_generator_invalid_range():
+
+def test_card_number_generator_invalid_range() -> None:
     """Тест обработки неверного диапазона"""
 
     with pytest.raises(ValueError):

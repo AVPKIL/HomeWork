@@ -37,7 +37,7 @@ def test_invalid_card_numbers(error_number: str) -> None:
     assert str(exc_info.value) == error_number
 
 
-def test_edge_cases():
+def test_edge_cases() -> None:
     """Тест нестандартных случаев"""
     # Все нули
     assert get_mask_card_number("0000000000000000") == "0000 00** **** 0000"
@@ -49,7 +49,7 @@ def test_edge_cases():
     assert get_mask_card_number("1234  5678  9012  3456") == "1234 56** **** 3456"
 
 
-def test_input_types():
+def test_input_types() -> None:
     """Тест обработки разных типов ввода (если Union[str] предполагает другие типы)"""
     # Число вместо строки (если функция должна это обрабатывать)
     assert get_mask_card_number(1234567890123456) == "1234 56** **** 3456"
@@ -71,7 +71,7 @@ def test_input_types():
         ("99999999999999999999", "**9999"),
     ],
 )
-def test_valid_account_masking(account_number, expected):
+def test_valid_account_masking(account_number: str, expected: str) -> None:
     """Тестирование корректного маскирования валидных номеров счетов"""
     assert get_mask_account(account_number) == expected
 
@@ -90,7 +90,7 @@ def test_valid_account_masking(account_number, expected):
         ("      ", "Номер счёта должен состоять из 20 цифр"),
     ],
 )
-def test_invalid_account_numbers(account_number, error_message):
+def test_invalid_account_numbers(account_number: str, error_message: str) -> None:
     """Тестирование обработки невалидных номеров счетов"""
     with pytest.raises(ValueError) as exc_info:
         get_mask_account(account_number)
@@ -106,6 +106,6 @@ def test_invalid_account_numbers(account_number, error_message):
         ("12345678901234567890", "**7890"),
     ],
 )
-def test_account_last_digits(account_number, expected):
+def test_account_last_digits(account_number: str, expected: str) -> None:
     """Тестирование корректного отображения последних 4 цифр"""
     assert get_mask_account(account_number) == expected
