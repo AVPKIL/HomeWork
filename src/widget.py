@@ -4,8 +4,7 @@ from src.masks import get_mask_card_number, get_mask_account
 def mask_account_card(data: str) -> str:
     """Обработка информации о картах и о счетах"""
 
-
-    #Очищаем строку от лишних пробелов
+    # Очищаем строку от лишних пробелов
     data = data.strip()
     if not data:
         return data
@@ -42,7 +41,6 @@ def mask_account_card(data: str) -> str:
                 return f"{name} {masked_number}"
         except ValueError:
             return data
-
 
 
 def get_date(data_str: str) -> str:
