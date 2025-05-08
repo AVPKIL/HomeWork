@@ -4,6 +4,8 @@ import datetime
 
 
 def log(filename: Any = None) -> Any:
+    """Декоратор для лога вызовов функций, их аргументов, результатов и ошибок."""
+
     def decorator(func: Any) -> Any:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
