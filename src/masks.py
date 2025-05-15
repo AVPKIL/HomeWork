@@ -5,7 +5,7 @@ def get_mask_card_number(card_number: Union[str]) -> str:
     """Функция принимает на вход номер карты и возвращает ее маску."""
 
     # Удаляем все пробелы из номера карты, если они есть
-    card_number = card_number.replace(" ", "")
+    card_number = str(card_number).replace(" ", "")
 
     # Проверяем, что номер карты состоит только из цифр и имеет длину 16 символов
     if not card_number.isdigit() or len(card_number) != 16:

@@ -4,24 +4,43 @@ from src.masks import get_mask_card_number, get_mask_account
 def mask_account_card(data: str) -> str:
     """Обработка информации о картах и о счетах"""
 
-    parts = data.split(" ")
-    if len(parts) < 2:
+    # Очищаем строку от лишних пробелов
+    data = data.strip()
+    if not data:
         return data
 
-    # Собираем название (все части, кроме последней)
-    name = " ".join(parts[:-1])
-    number = parts[-1]
+    parts = data.split(" ")
+    if not parts:
+        return data
 
-    # Обработка карты (если название не "Счет")
-    if name.lower() != "счет":
-        # Оставляем только цифры
-        masked_number = get_mask_card_number(number)
-        return f"{name} {masked_number}"
-
-    # Обработка счета
+    # Определяем тип (счет или карта)
+    if len(parts) == 1:
+        # Если только номер, пробуем определить по длине
+        number_part = parts[0]
+        try:
+            if len(number_part.replace(" ", "")) == 20:
+                return get_mask_account(number_part)
+            elif len(number_part.replace(" ", "")) == 16:
+                return get_mask_card_number(number_part)
+            else:
+                return data
+        except ValueError:
+            return data
     else:
-        masked_number = get_mask_account(number)
-        return f"{name} {masked_number}"
+        # Если есть название
+        name_parts = parts[:-1]
+        number_part = parts[-1]
+        name = " ".join(name_parts)
+
+        try:
+            if name.lower() == "счет":
+                masked_number = get_mask_account(number_part)
+                return f"{name} {masked_number}"
+            else:
+                masked_number = get_mask_card_number(number_part)
+                return f"{name} {masked_number}"
+        except ValueError:
+            return data
 
 
 def get_date(data_str: str) -> str:
