@@ -11,6 +11,7 @@
 * **Генератор номеров карт** (`card_number_generator`)
 * **Транзакции из JSON-файла.** (`load_transactions`)
 * **Конвертация суммы в рубли** (`convert_to_rub`)
+* **Поддержка CSV и Excel файлов** (`load_csv_transactions` и `load_excel_transactions`)
 
 ## Цель проекта
 Упростить обработку списка транзакций, полученных из базы данных, с возможностью:
@@ -27,6 +28,7 @@
    - `generators.py` - генераторы данных
    - `decorators.py` - лог вызовов функций, их аргументов, результатов и ошибок.
    - `utils.py` - загрузка данных о транзакциях из JSON-файла.
+   - `pandas_utils.py` - загрузка данных о транзакциях из CSV и Excel файлов
 
 ## Использование
 ### 1. Функция `get_mask_card_number`
@@ -238,6 +240,29 @@ print(transactions)
 >>> convert_to_rub(50, "RUB")
 50.0
 ```
+### 11. Функция `load_csv_transactions`
+Загружает транзакции из CSV-файла и возвращает в виде списка словарей. 
+
+Функция автоматически преобразует заголовки столбцов в ключи словарей, а значения строк - в соответствующие значения.
+
+**Пример использования функции:**
+```commandline
+>>> transactions = load_csv_transactions('transactions.csv')
+>>> print(transactions[0]['amount'])
+100
+```
+### 12. Функция `load_excel_transactions`
+Загружает транзакции из Excel-файла (XLSX) в виде списка словарей.
+
+Поддерживает стандартные форматы Excel. Читает первый лист файла.
+
+**Пример использования функции:**
+```commandline
+>>> data = load_excel_transactions('financial_data.xlsx')
+>>> len(data) > 0
+True
+```
+
 
 # Тестирование
 ## Запуск тестов
@@ -301,3 +326,11 @@ pytest --cov=src tests/  # Замер покрытия кода тестами
 * Тест конвертации в USD
 * Тест конвертации в EUR
 * Тест без конвертации
+
+### 7. Модуль pandas_utils
+#### Функция `load_csv_transactions`
+* Тест корректного CSV
+* Тест битого CSV
+* #### Функция `load_excel_transactions`
+* Тест корректного Excel
+* Тест битого Excel

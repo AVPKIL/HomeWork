@@ -27,7 +27,7 @@ def mask_account_card(data: str) -> str:
         except ValueError:
             return data
     else:
-        # Если есть название
+        # Если есть названиезя
         name_parts = parts[:-1]
         number_part = parts[-1]
         name = " ".join(name_parts)
